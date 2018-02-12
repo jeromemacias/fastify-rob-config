@@ -1,0 +1,36 @@
+{
+  "name": "fastify-rob-config",
+  "version": "0.0.0",
+  "description": "Fastify Rob-Config integration",
+  "main": "index.js",
+  "scripts": {
+    "test": "eslint ./**/*.js && ROB_CONFIG_DIR=example/config tap test.js",
+    "lint": "eslint ./**/*.js",
+    "patch": "np patch --yolo",
+    "minor": "np minor --yolo",
+    "major": "np major --yolo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeromemacias/fastify-rob-config.git"
+  },
+  "author": "Jérôme Macias <jerome.macias@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jeromemacias/fastify-rob-config/issues"
+  },
+  "homepage": "https://github.com/jeromemacias/fastify-rob-config#readme",
+  "dependencies": {
+    "fastify-plugin": "^0.2.1",
+    "rob-config": "^4.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-config-hemera": "0.0.2",
+    "fastify": "~0.43.0",
+    "np": "^2.19.0",
+    "pre-commit": "~1.2.2",
+    "prettier": "^1.10.2",
+    "tap": "~11.1.0"
+  }
+}
