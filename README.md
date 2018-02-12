@@ -2,7 +2,7 @@
 
 Fastify Rob-Config integration
 
-[![Current Version](https://img.shields.io/npm/v/fastify-boom.svg)](https://www.npmjs.com/package/fastify-rob-config)
+[![Current Version](https://img.shields.io/npm/v/fastify-rob-config.svg)](https://www.npmjs.com/package/fastify-rob-config)
 [![Build Status](https://travis-ci.org/jeromemacias/fastify-rob-config.svg?branch=master)](https://travis-ci.org/jeromemacias/fastify-rob-config)
 
 ## Install
