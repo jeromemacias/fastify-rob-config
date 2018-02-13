@@ -15,18 +15,19 @@ First, initialize your configuration and schema file: https://github.com/jeromem
 
 ```js
 const fastify = require('fastify')()
+const fastifyRobConfig = require('fastify-rob-config')
 
-fastify.register(require('fastify-rob-config'))
+const config = require('rob-config')
+const options = {
+  confKey: 'config', // optional, default: config
+  asProperties: false, // if true, you will access to config.key instead of config.get('key'), default: false
+  config: config // optional, default: require('rob-config')
+}
 
-fastify.get('/', async function (req, reply) {
-  reply.send({ env: fastify.config.get('env') })
-})
-
-fastify.listen(3000, err => {
-  if (err) {
-    fastify.log.error(err)
-  }
-})
+fastify.register(fastifyRobConfig, options, function (err) {
+   // or fastify[options.confKey].get('env')
+  console.log(fastify.config.get('env'))
+}))
 ```
 
 ### Credits
