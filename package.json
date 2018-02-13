@@ -21,15 +21,15 @@
   },
   "homepage": "https://github.com/jeromemacias/fastify-rob-config#readme",
   "dependencies": {
-    "fastify-plugin": "^0.2.1",
+    "fastify-plugin": "^0.2.2",
     "rob-config": "^4.0.0"
   },
   "devDependencies": {
     "eslint": "^4.17.0",
     "eslint-config-hemera": "0.0.2",
-    "fastify": "~0.43.0",
+    "fastify": "^1.0.0-rc.1",
     "np": "^2.19.0",
-    "pre-commit": "~1.2.2",
+    "pre-commit": "^1.2.2",
     "prettier": "^1.10.2",
     "tap": "~11.1.0"
   }

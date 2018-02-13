@@ -54,6 +54,6 @@ function loadAndValidateConfig(fastify, options, next) {
 }
 
 module.exports = fp(loadAndValidateConfig, {
-  fastify: '>=0.43.0',
+  fastify: '>=1.0.0-rc.1',
   name: 'fastify-rob-config'
 })
