@@ -5,20 +5,20 @@ const Fastify = require('fastify')
 const fastifyEnv = require('./index')
 const exampleConfig = require('rob-config')
 
-function makeTest(t, asProperties, config, isOk, confExpected, errorMessage) {
+function makeTest(t, asProperties, config, confKey, isOk, confExpected, errorMessage) {
   t.plan(isOk ? 2 : 1)
 
   const fastify = Fastify()
   fastify
     .register(fastifyEnv, {
-      confKey: 'config',
-      asProperties: asProperties,
-      config: config
+      confKey,
+      asProperties,
+      config
     })
     .ready(err => {
       if (isOk) {
         t.notOk(err)
-        t.strictSame(fastify.config, confExpected)
+        t.strictSame(fastify[confKey || 'config'], confExpected)
         return
       }
 
@@ -36,6 +36,17 @@ const tests = [
       env: 'development',
       port: 3001
     }
+  },
+  {
+    name: 'simple ok',
+    config: exampleConfig,
+    confKey: 'customConfig',
+    asProperties: true,
+    isOk: true,
+    confExpected: {
+      env: 'development',
+      port: 3001
+    }
   }
 ]
 
@@ -45,6 +56,7 @@ tests.forEach(function (testConf) {
       t,
       testConf.asProperties,
       testConf.config,
+      testConf.confKey,
       testConf.isOk,
       testConf.confExpected,
       testConf.errorMessage
