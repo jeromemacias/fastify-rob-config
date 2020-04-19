@@ -1,8 +1,8 @@
 'use strict'
 
 const fp = require('fastify-plugin')
-
 const Ajv = require('ajv')
+
 const ajv = new Ajv({
   removeAdditional: true,
   useDefaults: true,
@@ -23,10 +23,10 @@ const optsSchemaValidator = ajv.compile(optsSchema)
 function loadAndValidateConfig(fastify, options, next) {
   const isOptionsValid = optsSchemaValidator(options)
   if (!isOptionsValid) {
-    return next(new Error(optsSchemaValidator.errors.map(e => e.message)))
+    return next(new Error(optsSchemaValidator.errors.map((e) => e.message)))
   }
 
-  const confKey = options.confKey
+  const { confKey } = options
 
   let config
 
@@ -34,7 +34,7 @@ function loadAndValidateConfig(fastify, options, next) {
     config = options.config
   } else {
     try {
-      config = require('rob-config')
+      config = require('rob-config') // eslint-disable-line global-require
     } catch (e) {
       return next(e)
     }
@@ -43,7 +43,7 @@ function loadAndValidateConfig(fastify, options, next) {
   try {
     config.validate()
   } catch (e) {
-    e.message = '[rob-config] ' + e.message
+    e.message = `[rob-config] ${e.message}`
 
     return next(e)
   }
@@ -54,6 +54,6 @@ function loadAndValidateConfig(fastify, options, next) {
 }
 
 module.exports = fp(loadAndValidateConfig, {
-  fastify: '>=1.0.0-rc.1',
+  fastify: '>=2.0.0',
   name: 'fastify-rob-config'
 })

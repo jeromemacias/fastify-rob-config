@@ -39,7 +39,7 @@ const tests = [
   }
 ]
 
-tests.forEach(function(testConf) {
+tests.forEach(function (testConf) {
   t.test(testConf.name, t => {
     makeTest(
       t,
@@ -50,4 +50,19 @@ tests.forEach(function(testConf) {
       testConf.errorMessage
     )
   })
+})
+
+t.test('Wrong options', t => {
+  t.plan(3)
+
+  const fastify = Fastify()
+  fastify
+    .register(fastifyEnv, {
+      unexistedOption: true
+    })
+    .ready(err => {
+      t.ok(err)
+      t.type(err, Error)
+      t.equal(err.message, 'should be object')
+    })
 })
