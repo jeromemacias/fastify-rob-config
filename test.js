@@ -5,7 +5,15 @@ const Fastify = require('fastify')
 const fastifyEnv = require('./index')
 const exampleConfig = require('rob-config')
 
-function makeTest(t, asProperties, config, confKey, isOk, confExpected, errorMessage) {
+function makeTest(
+  t,
+  asProperties,
+  config,
+  confKey,
+  isOk,
+  confExpected,
+  errorMessage
+) {
   t.plan(isOk ? 2 : 1)
 
   const fastify = Fastify()
@@ -15,7 +23,7 @@ function makeTest(t, asProperties, config, confKey, isOk, confExpected, errorMes
       asProperties,
       config
     })
-    .ready(err => {
+    .ready((err) => {
       if (isOk) {
         t.notOk(err)
         t.strictSame(fastify[confKey || 'config'], confExpected)
@@ -47,11 +55,20 @@ const tests = [
       env: 'development',
       port: 3001
     }
+  },
+  {
+    name: 'require ok',
+    asProperties: true,
+    isOk: true,
+    confExpected: {
+      env: 'development',
+      port: 3001
+    }
   }
 ]
 
 tests.forEach(function (testConf) {
-  t.test(testConf.name, t => {
+  t.test(testConf.name, (t) => {
     makeTest(
       t,
       testConf.asProperties,
@@ -62,4 +79,16 @@ tests.forEach(function (testConf) {
       testConf.errorMessage
     )
   })
+})
+
+t.test('Validation error', (t) => {
+  makeTest(
+    t,
+    true,
+    exampleConfig.set('port', 'error'),
+    null,
+    false,
+    null,
+    '[rob-config] port: ports must be within range 0 - 65535'
+  )
 })

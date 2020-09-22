@@ -22,7 +22,7 @@
   "homepage": "https://github.com/jeromemacias/fastify-rob-config#readme",
   "dependencies": {
     "fastify-plugin": "^1.6.0",
-    "rob-config": "^4.0.0"
+    "rob-config": "^6.0.0"
   },
   "devDependencies": {
     "eslint": "~6.8.0",
