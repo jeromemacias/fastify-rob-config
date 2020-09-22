@@ -2,31 +2,8 @@
 
 const fp = require('fastify-plugin')
 
-const Ajv = require('ajv')
-const ajv = new Ajv({
-  removeAdditional: true,
-  useDefaults: true,
-  coerceTypes: true
-})
-
-const optsSchema = {
-  type: 'object',
-  required: [],
-  properties: {
-    confKey: { type: 'string', default: 'config' },
-    asProperties: { type: 'boolean', default: false },
-    config: { type: 'object', default: null }
-  }
-}
-const optsSchemaValidator = ajv.compile(optsSchema)
-
-function loadAndValidateConfig(fastify, options, next) {
-  const isOptionsValid = optsSchemaValidator(options)
-  if (!isOptionsValid) {
-    return next(new Error(optsSchemaValidator.errors.map(e => e.message)))
-  }
-
-  const confKey = options.confKey
+function fastifyRobConfig(fastify, options, next) {
+  const { confKey, asProperties } = options
 
   let config
 
@@ -34,7 +11,7 @@ function loadAndValidateConfig(fastify, options, next) {
     config = options.config
   } else {
     try {
-      config = require('rob-config')
+      config = require('rob-config') // eslint-disable-line global-require
     } catch (e) {
       return next(e)
     }
@@ -43,17 +20,20 @@ function loadAndValidateConfig(fastify, options, next) {
   try {
     config.validate()
   } catch (e) {
-    e.message = '[rob-config] ' + e.message
+    e.message = `[rob-config] ${e.message}`
 
     return next(e)
   }
 
-  fastify.decorate(confKey, options.asProperties ? config.properties() : config)
+  fastify.decorate(
+    confKey || 'config',
+    asProperties ? config.properties() : config
+  )
 
   next()
 }
 
-module.exports = fp(loadAndValidateConfig, {
-  fastify: '>=1.0.0-rc.1',
+module.exports = fp(fastifyRobConfig, {
+  fastify: '>=2.0.0',
   name: 'fastify-rob-config'
 })
