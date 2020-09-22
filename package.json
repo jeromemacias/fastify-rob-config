@@ -1,6 +1,6 @@
 {
   "name": "fastify-rob-config",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Fastify Rob-Config integration",
   "main": "index.js",
   "scripts": {
